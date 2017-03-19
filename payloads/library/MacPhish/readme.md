@@ -21,8 +21,8 @@ This is configured for Macbooks as a keyboard, opens terminal via spotlight
 | Green            | Finished                              |
 
 ## Future features and expansions on this branch:
--Divide the script into modules
--Edit text for alert, assure user that no restart will be required and that it is a critical update
--Schedule cron job to start after 5 minutes, edit script to pop back up if they hit cancel or enter the wrong password
--Exfil
--Attempt enabling ssh, at least open a bind shell
+Divide the script into modules
+Edit text for alert, assure user that no restart will be required and that it is a critical update
+Schedule cron job to start after 5 minutes, edit script to pop back up if they hit cancel or enter the wrong password
+Exfil
+Attempt enabling ssh, at least open a bind shell
